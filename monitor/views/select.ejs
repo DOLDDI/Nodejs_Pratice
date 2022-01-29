@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        // 1초마다 값이 변하는 것을 보여줌
+        setInterval(()=>{
+            monitor(); // 실행할 코드
+        }, 1000) 
+
+        function monitor(){ // monitor 코드 실행
+            $.getJSON(
+                "/monitor",
+                function(data){   // data는 monitor로 받아온 data
+                    let head = `<table>
+                        <tr>
+                            <th>농장 이름</th>
+                            <th>농장 주소</th>
+                            <th>온도</th>
+                            <th>습도</th>
+                        </tr>`
+                    let body = ''
+                    for(var i in data.result){
+                        body +=
+                        `<tr>
+                            <td>${data.result[i].name}</td>
+                            <td>${data.result[i].address}</td>
+                            <td>${data.result[i].temp}</td>
+                            <td>${data.result[i].hud}</td>
+                        </tr>`
+                    }
+                    let footer = `</table>`
+                    $("#monitor").html(head + body + footer)
+                }
+            )
+
+        }
+    </script>
+</head>
+<body>
+    <div id="monitor"></div>
+</body>
+</html>
